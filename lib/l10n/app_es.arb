@@ -1,0 +1,13 @@
+{
+    "@@locale": "es",
+    "helloWorld": "Hola Mundo",
+     "title": "Aplicación en Español",
+    "@title": {
+        "description": "Título de la aplicación"
+    },
+    "@helloWorld": {
+        "description": "hola mundo descripción"
+
+    }
+
+}

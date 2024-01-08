@@ -1,0 +1,13 @@
+{
+    "@@locale": "pt",
+    "helloWorld": "Olá Mundo",
+     "title": "Aplication em Portugués",
+    "@title": {
+        "description": "Titulo de la apk"
+    },
+    "@helloWorld": {
+        "description": "Olá Mundo descripcion"
+
+    }
+
+}
