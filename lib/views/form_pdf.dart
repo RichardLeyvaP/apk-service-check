@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Service Check PDF',
+      title: 'Stepper App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -31,35 +31,27 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Service Check PDF'),
+        title: Text('Stepper App'),
       ),
       body: Stepper(
-        currentStep: currentStep,
-        onStepContinue: () => _nextStep(),
-        onStepCancel: () => _previousStep(),
         steps: [
           Step(
             content: _buildFormStep1(),
             title: const Text('Form 1'),
-            isActive: currentStep == 0,
           ),
           Step(
             content: _buildFormStep2(),
             title: const Text('Form 2'),
-            isActive: currentStep == 1,
           ),
           Step(
             content: _buildFormStep3(),
             title: const Text('Form 3'),
-            isActive: currentStep == 2,
           ),
           Step(
             content: _buildFormStep4(),
             title: const Text('Form 4'),
-            isActive: currentStep == 3,
           ),
         ],
-        type: StepperType.vertical,
       ),
     );
   }
@@ -74,6 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
         _buildTextField('Field 4'),
         _buildTextField('Field 5'),
         _buildTextField('Field 6'),
+        ElevatedButton(
+          onPressed: () => _nextStep(),
+          child: Text('Siguiente'),
+        ),
       ],
     );
   }
@@ -83,6 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Add your fields for Step 2 here
+        ElevatedButton(
+          onPressed: () => _nextStep(),
+          child: Text('Siguiente'),
+        ),
       ],
     );
   }
@@ -92,6 +92,10 @@ class _MyHomePageState extends State<MyHomePage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Add your fields for Step 3 here
+        ElevatedButton(
+          onPressed: () => _nextStep(),
+          child: Text('Siguiente'),
+        ),
       ],
     );
   }
@@ -133,16 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _previousStep() {
-    if (currentStep > 0) {
-      setState(() {
-        currentStep--;
-      });
-    }
-  }
-
   void _generatePdf() {
-    //llamra aqui el controlador que llama la api
     // Implement PDF generation logic here
   }
 
