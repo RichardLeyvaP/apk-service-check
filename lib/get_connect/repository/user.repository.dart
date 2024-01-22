@@ -66,4 +66,106 @@ class UserRepository extends GetConnect {
       return e;
     }
   }
+
+  Future<bool> getPdf(
+    // Formulario 1
+    valorBranchName,
+    valorCityState,
+    valorContact,
+
+    // Formulario 2
+    valorNumberRelatorie,
+    valorTag,
+    valorDirection,
+    valorFabricante,
+    valorFunctionProceso,
+    //
+    valorFaixa,
+    valorMedida,
+    valorFre,
+    valorDataCalibration,
+    valorDataNextCalibration,
+
+    // Formulario 3
+    valorAplicada25,
+    valorAplicada50,
+    valorAplicada75,
+    valorAplicada100,
+
+    // Formulario 4 - Izquierda
+    valorInstrument_padrao,
+    valorCertificado,
+    valorService_execute,
+    valorArt,
+    valorTecnico,
+
+    // Formulario 4 - Derecha
+    valorModel,
+    valorDate_aferica,
+    valorIngenier,
+    valorData,
+  ) async {
+    var url = '${Env.apiEndpoint}/pdf';
+    final Map<String, dynamic> body = {
+      // Formulario 1
+      'branchName': valorBranchName,
+      'cityState': valorCityState,
+      'contact': valorContact,
+
+      // Formulario 2
+      'numberRelatorie': valorNumberRelatorie,
+      'tag': valorTag,
+      'direction': valorDirection,
+      'fabricante': valorFabricante,
+      'functionProceso': valorFunctionProceso,
+
+      // Formulario 3
+      'aplicada25': valorAplicada25,
+      'aplicada50': valorAplicada50,
+      'aplicada75': valorAplicada75,
+      'aplicada100': valorAplicada100,
+
+      // Formulario 4 - Izquierda
+      'instrument_padrao': valorInstrument_padrao,
+      'certificado': valorCertificado,
+      'service_execute': valorService_execute,
+      'art': valorArt,
+      'tecnico': valorTecnico,
+
+      // Formulario 4 - Derecha
+      'model': valorModel,
+      'date_aferica': valorDate_aferica,
+      'ingenier': valorIngenier,
+      'data': valorData,
+
+      // Formulario 2 - Restantes
+      'faixa': valorFaixa,
+      'medida': valorMedida,
+      'fre': valorFre,
+      'dataCalibration': valorDataCalibration,
+      'dataNextCalibration': valorDataNextCalibration,
+    };
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json' // ajusta según tu autenticación
+    };
+    try {
+      final response = await post(url, body, headers: headers);
+      print(response.body);
+      print(response.status);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        final response1 = response.bodyBytes;
+        print('Ver cómo dar la opción de descargar el pdf');
+        print(response1);
+        return true;
+      } else {
+        print('Fallo y dio código: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error en la solicitud PDF: $e');
+      return false;
+    }
+  }
 }

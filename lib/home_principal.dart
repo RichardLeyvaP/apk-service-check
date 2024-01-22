@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:get/get.dart';
 
-class HomePricipal extends StatelessWidget {
+class HomePricipal extends StatefulWidget {
   HomePricipal({super.key});
+
+  @override
+  State<HomePricipal> createState() => _HomePricipalState();
+}
+
+class _HomePricipalState extends State<HomePricipal> {
   final LoginController controllerLogin = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 36, 35, 35),
       body: Column(
         children: [
           Expanded(
@@ -50,12 +55,30 @@ class HomePricipal extends StatelessWidget {
                                   begin: Alignment.topRight,
                                   end: Alignment.bottomLeft,
                                   colors: [
-                                    Color.fromARGB(255, 11, 70, 231),
-                                    Color.fromARGB(255, 138, 199, 240),
+                                    Color.fromARGB(255, 19, 61, 30),
+                                    Color.fromARGB(255, 138, 240, 177),
                                   ],
                                 ),
                               ),
                             ),
+                          ),
+                          Positioned(
+                            top: 30,
+                            right: 15,
+                            child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    Get.changeThemeMode(Get.isDarkMode
+                                        ? ThemeMode.light
+                                        : ThemeMode.dark);
+                                  });
+                                },
+                                child: CircleAvatar(
+                                  child: Icon(
+                                    Icons.brightness_medium,
+                                    size: 30,
+                                  ),
+                                )),
                           ),
                           Center(
                             child: Padding(
@@ -64,8 +87,6 @@ class HomePricipal extends StatelessWidget {
                                 children: [
                                   CircleAvatar(
                                     radius: 70,
-                                    backgroundColor:
-                                        Color.fromARGB(159, 127, 171, 238),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(80),
                                       child: Image.network(
@@ -79,7 +100,6 @@ class HomePricipal extends StatelessWidget {
                                   const Text(
                                     'Mariela Laos Zamora',
                                     style: TextStyle(
-                                      color: Colors.white,
                                       fontWeight: FontWeight.w700,
                                       fontSize: 20,
                                     ),
@@ -101,19 +121,6 @@ class HomePricipal extends StatelessWidget {
                                           '');
                                       // Acción para cerrar la cuenta
                                     },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              const Color.fromARGB(
-                                                  255, 87, 86, 86)),
-                                      shape: MaterialStateProperty.all<
-                                          OutlinedBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              30.0), // Ajusta el valor según tus necesidades
-                                        ),
-                                      ),
-                                    ),
                                     child: const Text('Cerrar mi cuenta'),
                                   ),
                                 ],
@@ -127,20 +134,21 @@ class HomePricipal extends StatelessWidget {
                       children: [
                         Container(
                           height: 50, // Altura del Stack
-                          color: Colors.transparent, // Color transparente
                         ),
                       ],
                     ),
                     Expanded(
                         flex: 4,
                         child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30)),
-                            color: Color.fromARGB(255, 87, 86,
-                                86), // Ajusta el valor de opacidad según tus necesidades
-                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30)),
+                              color: Get.isDarkMode
+                                  ? Color.fromARGB(255, 81, 89, 202)
+                                  : Color.fromARGB(255, 87, 86,
+                                      86) // Ajusta el valor de opacidad según tus necesidades
+                              ),
                         )),
                   ],
                 ),
@@ -179,29 +187,27 @@ class HomePricipal extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor:
-            Colors.lightBlue, // Ajusta el color según tus necesidades
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Color.fromARGB(255, 20, 37, 68)),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon:
-                Icon(Icons.show_chart, color: Color.fromARGB(255, 20, 37, 68)),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add, color: Color.fromARGB(255, 20, 37, 68)),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings, color: Color.fromARGB(255, 20, 37, 68)),
-            label: '',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   // Ajusta el color según tus necesidades
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.person),
+      //       label: '',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.show_chart),
+      //       label: '',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.add),
+      //       label: '',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.settings),
+      //       label: '',
+      //     ),
+      //   ],
+      // ),
     );
   }
 
@@ -210,10 +216,11 @@ class HomePricipal extends StatelessWidget {
       color: Colors.transparent,
       elevation: 0,
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Color.fromARGB(255, 48, 47,
-              47), // Ajusta el valor de opacidad según tus necesidades
+          color: Get.isDarkMode
+              ? Color.fromARGB(155, 172, 176, 233)
+              : Color.fromARGB(255, 35, 35, 36),
         ),
         width: 170,
         height: 170,
@@ -221,11 +228,9 @@ class HomePricipal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundColor: const Color.fromARGB(255, 87, 86, 86),
               radius: 30,
               child: Icon(
                 icon,
-                color: Colors.lightBlue,
                 size: 35,
               ),
             ),

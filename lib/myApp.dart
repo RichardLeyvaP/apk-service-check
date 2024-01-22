@@ -3,6 +3,7 @@
 import 'package:apk_service_check/Controllers/login.controller.dart';
 import 'package:apk_service_check/home_principal.dart';
 import 'package:apk_service_check/pagePdf.dart';
+import 'package:apk_service_check/theme.dart';
 import 'package:apk_service_check/views/page404.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
@@ -26,7 +27,9 @@ class Myapp extends StatelessWidget {
     return GetBuilder<LoginController>(builder: (_) {
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: themeDataProfessional(), //es tecnico
+        theme: ThemeData(colorScheme: lightColorScheme),
+        darkTheme: ThemeData(colorScheme: darkColorScheme),
+        themeMode: ThemeMode.dark, //es tecnico
         initialRoute: '/HomePricipal',
         //initialRoute: '/SplashPage',
         unknownRoute: GetPage(
