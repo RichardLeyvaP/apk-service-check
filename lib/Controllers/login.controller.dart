@@ -77,7 +77,8 @@ class LoginController extends GetxController {
     valorData,
   ) async {
     //llamar al repositorio
-    var result = await usuarioLg.getPdf(
+    var result = await usuarioLg.getPdf();
+    /*var result = await usuarioLg.getPdf(
       // Formulario 1
       valorBranchName,
       valorCityState,
@@ -114,7 +115,7 @@ class LoginController extends GetxController {
       valorDate_aferica,
       valorIngenier,
       valorData,
-    );
+    );*/
 
     if (result == true) {
       print('LA API ESTA DEVOLVIENDO TODO BIEN ESTOY YA EN EL CONTROLADOR');

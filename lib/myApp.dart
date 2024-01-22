@@ -29,7 +29,7 @@ class Myapp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(colorScheme: lightColorScheme),
         darkTheme: ThemeData(colorScheme: darkColorScheme),
-        themeMode: ThemeMode.dark, //es tecnico
+        themeMode: ThemeMode.light, //es tecnico
         initialRoute: '/HomePricipal',
         //initialRoute: '/SplashPage',
         unknownRoute: GetPage(

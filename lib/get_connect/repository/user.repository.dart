@@ -67,7 +67,39 @@ class UserRepository extends GetConnect {
     }
   }
 
-  Future<bool> getPdf(
+  Future<bool> getPdf() async {
+    // Construye la URL con los parámetros
+    var url = '${Env.apiEndpoint}/pdf-apk';
+    final Map<String, String> headers = {
+      'Content-Type': 'application/pdf', // ajusta según tu autenticación
+    };
+    print(url);
+    try {
+      final response = await get(url, headers: headers);
+
+      print('****************************');
+      print(response);
+      print(response.headers);
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        final response1 = response.bodyBytes;
+        print('Ver cómo dar la opción de descargar el pdf');
+        print(response1);
+        return true;
+      } else {
+        print('Fallo y dio código: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error en la solicitud PDF: $e');
+      return false;
+    }
+  }
+
+/*
+ Future<bool> getPdf(
     // Formulario 1
     valorBranchName,
     valorCityState,
@@ -105,53 +137,20 @@ class UserRepository extends GetConnect {
     valorIngenier,
     valorData,
   ) async {
-    var url = '${Env.apiEndpoint}/pdf';
-    final Map<String, dynamic> body = {
-      // Formulario 1
-      'branchName': valorBranchName,
-      'cityState': valorCityState,
-      'contact': valorContact,
+    // Construye la URL con los parámetros
+    var url =
+        '${Env.apiEndpoint}/pdf?branchName=$valorBranchName&cityState=$valorCityState&contact=$valorContact&numberRelatorie=$valorNumberRelatorie&tag=$valorTag&direction=$valorDirection&fabricante=$valorFabricante&functionProceso=$valorFunctionProceso&aplicada25=$valorAplicada25&aplicada50=$valorAplicada50&aplicada75=$valorAplicada75&aplicada100=$valorAplicada100&instrument_padrao=$valorInstrument_padrao&certificado=$valorCertificado&service_execute=$valorService_execute&art=$valorArt&tecnico=$valorTecnico&model=$valorModel&date_aferica=$valorDate_aferica&ingenier=$valorIngenier&data=$valorData&faixa=$valorFaixa&medida=$valorMedida&fre=$valorFre&dataCalibration=$valorDataCalibration&dataNextCalibration=$valorDataNextCalibration';
 
-      // Formulario 2
-      'numberRelatorie': valorNumberRelatorie,
-      'tag': valorTag,
-      'direction': valorDirection,
-      'fabricante': valorFabricante,
-      'functionProceso': valorFunctionProceso,
-
-      // Formulario 3
-      'aplicada25': valorAplicada25,
-      'aplicada50': valorAplicada50,
-      'aplicada75': valorAplicada75,
-      'aplicada100': valorAplicada100,
-
-      // Formulario 4 - Izquierda
-      'instrument_padrao': valorInstrument_padrao,
-      'certificado': valorCertificado,
-      'service_execute': valorService_execute,
-      'art': valorArt,
-      'tecnico': valorTecnico,
-
-      // Formulario 4 - Derecha
-      'model': valorModel,
-      'date_aferica': valorDate_aferica,
-      'ingenier': valorIngenier,
-      'data': valorData,
-
-      // Formulario 2 - Restantes
-      'faixa': valorFaixa,
-      'medida': valorMedida,
-      'fre': valorFre,
-      'dataCalibration': valorDataCalibration,
-      'dataNextCalibration': valorDataNextCalibration,
-    };
     final Map<String, String> headers = {
-      'Content-Type': 'application/json' // ajusta según tu autenticación
+      'Content-Type': 'application/json', // ajusta según tu autenticación
     };
+
     try {
-      final response = await post(url, body, headers: headers);
+      final response = await get(url, headers: headers);
+
+      print('****************************');
+      print(response);
       print(response.body);
-      print(response.status);
       print(response.statusCode);
 
       if (response.statusCode == 200) {
@@ -168,4 +167,6 @@ class UserRepository extends GetConnect {
       return false;
     }
   }
+
+*/
 }
