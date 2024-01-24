@@ -1,22 +1,20 @@
-// ignore_for_file: unused_element, depend_on_referenced_packages
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+//import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
 import 'package:get/get.dart';
 
+//todo hay que poner esta dependencia
+// downloads_path_provider_28: ^0.1.2
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _requestPermissions();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -25,65 +23,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//ESTE METODO NO LO ESTOY UTIIZANDO , ESTO E SPARA SABER LAS ESPECIFICACIONE SDE CADA TELEFONO
-Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
-  int sdkInt = build.version.sdkInt;
-
-  return <String, dynamic>{
-    'version.securityPatch': build.version.securityPatch,
-    'version.sdkInt': sdkInt,
-    'version.release': build.version.release,
-    'version.previewSdkInt': build.version.previewSdkInt,
-    'version.incremental': build.version.incremental,
-    'version.codename': build.version.codename,
-    'version.baseOS': build.version.baseOS,
-    'board': build.board,
-    'bootloader': build.bootloader,
-    'brand': build.brand,
-    'device': build.device,
-    'display': build.display,
-    'fingerprint': build.fingerprint,
-    'hardware': build.hardware,
-    'host': build.host,
-    'id': build.id,
-    'manufacturer': build.manufacturer,
-    'model': build.model,
-    'product': build.product,
-    'supported32BitAbis': build.supported32BitAbis,
-    'supported64BitAbis': build.supported64BitAbis,
-    'supportedAbis': build.supportedAbis,
-    'tags': build.tags,
-    'type': build.type,
-    'isPhysicalDevice': build.isPhysicalDevice,
-    'systemFeatures': build.systemFeatures,
-    'displaySizeInches':
-        ((build.displayMetrics.sizeInches * 10).roundToDouble() / 10),
-    'displayWidthPixels': build.displayMetrics.widthPx,
-    'displayWidthInches': build.displayMetrics.widthInches,
-    'displayHeightPixels': build.displayMetrics.heightPx,
-    'displayHeightInches': build.displayMetrics.heightInches,
-    'displayXDpi': build.displayMetrics.xDpi,
-    'displayYDpi': build.displayMetrics.yDpi,
-    'serialNumber': build.serialNumber,
-  };
-}
-
 Future<void> _requestPermissions() async {
-  PermissionStatus status;
-
-  // Obtener información sobre el dispositivo
-  AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
-  print("Android SDK Version222: ${androidInfo.version.release}");
-
-  // Verificar la versión de Android
-  if (int.tryParse(androidInfo.version.release)! < 13) {
-    // Android SDK < 23 (antes de Android 6.0), usa Permission.storage
-    status = await Permission.storage.request();
-  } else {
-    // Android SDK >= 23 (Android 6.0 o superior), usa Permission.manageExternalStorage
-    status = await Permission.manageExternalStorage.request();
-  }
-
+  final status = await Permission.manageExternalStorage.request();
   if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
     print("Please allow storage permission to download files");
   }
@@ -111,26 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
       loading = true;
     });
 
-    PermissionStatus status;
-
-    // Obtener información sobre el dispositivo
-    AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
-    print("Android SDK Version222: ${androidInfo.version.release}");
-
-    // Verificar la versión de Android
-    if (int.tryParse(androidInfo.version.release)! < 12) {
-      // Android SDK < 23 (antes de Android 6.0), usa Permission.storage
-      status = await Permission.storage.request();
-    } else {
-      // Android SDK >= 23 (Android 6.0 o superior), usa Permission.manageExternalStorage
-      status = await Permission.manageExternalStorage.request();
-    }
+    final status = await Permission.manageExternalStorage.request();
     if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
       print("Please allow storage permission to download files");
     } else if (status.isGranted) {
-      var dir = await getDownloadsDirectory();
+      //todo esto tuve que comentarlo
+      /* var dir = await DownloadsPathProvider.downloadsDirectory;
       String savename = "file.pdf";
-      savePath = "${dir!.path}/$savename";
+      savePath = dir!.path + "/$savename";*/
 
       try {
         await Dio().download(fileurl, savePath,
@@ -155,11 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
         });
 
         print("File is saved to download folder.");
-        await Future.delayed(const Duration(seconds: 3));
+        await Future.delayed(Duration(seconds: 3));
         setState(() {
           loading = false;
         });
-        // ignore: deprecated_member_use
       } on DioError catch (e) {
         print(e.message);
         Get.snackbar(
@@ -191,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.picture_as_pdf),
@@ -201,18 +129,18 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.deepPurpleAccent,
       ),
       body: Container(
-        margin: const EdgeInsets.only(top: 50),
+        margin: EdgeInsets.only(top: 50),
         child: Column(
           children: [
             Text("Arquivo a ser baixado: $fileurl"),
-            const Divider(),
+            Divider(),
             loading == false && porcent == ''
                 ? ElevatedButton(
-                    style: const ButtonStyle(
+                    style: ButtonStyle(
                         backgroundColor:
                             MaterialStatePropertyAll(Colors.black)),
                     onPressed: _downloadPDF,
-                    child: const Text(
+                    child: Text(
                       "Baixar",
                       style: TextStyle(color: Colors.white),
                     ),
@@ -223,32 +151,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       porcent == '100'
                           ? ElevatedButton(
                               onPressed: _openPDF,
-                              style: const ButtonStyle(
+                              style: ButtonStyle(
                                 backgroundColor: MaterialStatePropertyAll(
                                   Color.fromARGB(255, 20, 129, 25),
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 "Abrir Documento",
                                 style: TextStyle(color: Colors.white),
                               ),
                             )
-                          : const CircularProgressIndicator(
+                          : CircularProgressIndicator(
                               color: Color.fromARGB(255, 20, 129, 25),
                             ),
-                      const SizedBox(
+                      SizedBox(
                         width: 10,
                       ),
                       porcent == '100'
                           ? Text(
                               "Terminei de baixar ($porcent %)",
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Color.fromARGB(255, 1, 68, 18),
                                   fontSize: 20),
                             )
                           : Text(
                               "Transferindo ($porcent %)",
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Color.fromARGB(255, 1, 68, 18),
                                   fontSize: 20),
                             )
