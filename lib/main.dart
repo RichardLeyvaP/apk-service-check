@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element, depend_on_referenced_packages
 
+import 'package:apk_service_check/views/env.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -97,8 +98,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool loading = false;
   String porcent = '';
-  String fileurl =
-      "https://ortografia.com.es/wp-content/uploads/2018/02/EnsayoTerro.pdf";
+  String fileurl = '${Env.apiEndpoint}/pdf-apk';
   String savePath = '';
 
   @override
@@ -137,27 +137,68 @@ class _HomeScreenState extends State<HomeScreen> {
             onReceiveProgress: (received, total) async {
           print(total);
           print(received);
+
           if (total != -1) {
+            // Si la longitud total es conocida, calcula el progreso en porcentaje
             double progress = (received / total * 100);
             print("Progress: $progress%");
             print((received / total * 100).toStringAsFixed(0) + "%");
+
+            // Actualiza el estado para mostrar el progreso en la interfaz de usuario
             setState(() {
               porcent = progress.toStringAsFixed(0);
             });
-            if (porcent == '100') {
-              Get.snackbar(
-                'Mensagem',
-                'Arquivo A baixado com êxito!',
-                duration: const Duration(milliseconds: 3000),
-              );
-            }
+          } else {
+            // Si la longitud total no es conocida, muestra una barra de progreso animada
+            // Puedes ajustar esta lógica según tus necesidades
+            // En este ejemplo, simplemente incrementamos un valor para simular una animación
+            /* setState(() {
+              if (porcent != '100') {
+                // Solo incrementa si el porcentaje no es 100
+                print(porcent);
+                porcent = (int.parse(porcent) + 1).toString();
+              }
+            });*/
+          }
+
+          // Si la descarga se completa (ya sea que la longitud total sea conocida o no),
+          // puedes mostrar un mensaje de éxito
+          if (received == total || total == -1) {
+            Get.snackbar(
+              'Mensagem',
+              'Arquivo baixado com êxito!',
+              duration: const Duration(milliseconds: 3000),
+            );
           }
         });
 
+        // await Dio().download(fileurl, savePath,
+        //     onReceiveProgress: (received, total) async {
+        //   print(total);
+        //   print(received);
+        //   if (total != -1) {
+        //     double progress = (received / total * 100);
+        //     print("Progress: $progress%");
+        //     print((received / total * 100).toStringAsFixed(0) + "%");
+        //     setState(() {
+        //       porcent = progress.toStringAsFixed(0);
+        //     });
+        //     if (porcent == '100') {
+        //       Get.snackbar(
+        //         'Mensagem',
+        //         'Arquivo A baixado com êxito!',
+        //         duration: const Duration(milliseconds: 3000),
+        //       );
+        //     }
+        //   }
+        // });
+
         print("File is saved to download folder.");
+
         await Future.delayed(const Duration(seconds: 3));
         setState(() {
           loading = false;
+          porcent = '100';
         });
         // ignore: deprecated_member_use
       } on DioError catch (e) {
@@ -204,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
         margin: const EdgeInsets.only(top: 50),
         child: Column(
           children: [
-            Text("Arquivo a ser baixado: $fileurl"),
+            Text("PRUEBA DE DESCARGA DE PDF (RisoftwaR)"),
             const Divider(),
             loading == false && porcent == ''
                 ? ElevatedButton(
@@ -244,11 +285,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               "Terminei de baixar ($porcent %)",
                               style: const TextStyle(
                                   color: Color.fromARGB(255, 1, 68, 18),
-                                  fontSize: 20),
+                                  fontSize: 12),
                             )
-                          : Text(
-                              "Transferindo ($porcent %)",
-                              style: const TextStyle(
+                          : const Text(
+                              "Transferindo ...",
+                              style: TextStyle(
                                   color: Color.fromARGB(255, 1, 68, 18),
                                   fontSize: 20),
                             )

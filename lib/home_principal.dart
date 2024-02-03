@@ -145,8 +145,8 @@ class _HomePricipalState extends State<HomePricipal> {
                                   topLeft: Radius.circular(30),
                                   topRight: Radius.circular(30)),
                               color: Get.isDarkMode
-                                  ? Color.fromARGB(255, 81, 89, 202)
-                                  : Color.fromARGB(255, 87, 86,
+                                  ? const Color.fromARGB(255, 81, 89, 202)
+                                  : const Color.fromARGB(255, 87, 86,
                                       86) // Ajusta el valor de opacidad según tus necesidades
                               ),
                         )),
