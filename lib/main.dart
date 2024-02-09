@@ -1,19 +1,26 @@
 // ignore_for_file: unused_element, depend_on_referenced_packages
 
-import 'package:apk_service_check/views/env.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dio/dio.dart';
+import 'package:apk_service_check/myApp.dart';
+// import 'package:apk_service_check/views/env.dart';
+// import 'package:device_info_plus/device_info_plus.dart';
+// import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:open_file/open_file.dart';
-import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:open_file/open_file.dart';
+// import 'package:get/get.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await _requestPermissions();
-  runApp(const MyApp());
+  //initializeDateFormatting('es_ES', null).then((_) {
+  initializeDateFormatting('pt_BR', null).then((_) {
+    WidgetsFlutterBinding.ensureInitialized();
+    //await _requestPermissions();
+    runApp(Myapp());
+  });
 }
+
+/*
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -77,7 +84,7 @@ Future<void> _requestPermissions() async {
   print("Android SDK Version222: ${androidInfo.version.release}");
 
   // Verificar la versión de Android
-  if (int.tryParse(androidInfo.version.release)! < 13) {
+  if (int.tryParse(androidInfo.version.release)! < 12) {
     // Android SDK < 23 (antes de Android 6.0), usa Permission.storage
     status = await Permission.storage.request();
   } else {
@@ -98,6 +105,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool loading = false;
   String porcent = '';
+  // String fileurl =      'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
   String fileurl = '${Env.apiEndpoint}/pdf-apk';
   String savePath = '';
 
@@ -135,12 +143,13 @@ class _HomeScreenState extends State<HomeScreen> {
       try {
         await Dio().download(fileurl, savePath,
             onReceiveProgress: (received, total) async {
-          print(total);
-          print(received);
+          print('total:$total');
+          print('received:$received');
 
-          if (total != -1) {
+          if (total != -109) {
             // Si la longitud total es conocida, calcula el progreso en porcentaje
             double progress = (received / total * 100);
+            print('received22:$received');
             print("Progress: $progress%");
             print((received / total * 100).toStringAsFixed(0) + "%");
 
@@ -301,3 +310,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+*/

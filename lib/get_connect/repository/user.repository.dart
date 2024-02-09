@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:apk_service_check/views/env.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class UserRepository extends GetConnect {
@@ -67,30 +68,112 @@ class UserRepository extends GetConnect {
     }
   }
 
-  Future<bool> getPdf() async {
+  Future<dynamic> getPdf(
+    savePath,
+    // Formulario 1
+    valorBranchName,
+    valorCityState,
+    valorContact,
+
+    // Formulario 2
+    valorNumberRelatorie,
+    valorTag,
+    valorDirection,
+    valorFabricante,
+    valorFunctionProceso,
+    //
+    valorFaixa,
+    valorMedida,
+    valorFre,
+    valorDataCalibration,
+    valorDataNextCalibration,
+
+    // Formulario 3
+    valorAplicada25,
+    valorAplicada50,
+    valorAplicada75,
+    valorAplicada100,
+
+    // Formulario 4 - Izquierda
+    valorInstrumentPadrao,
+    valorCertificado,
+    valorServiceExecute,
+    valorArt,
+    valorTecnico,
+
+    // Formulario 4 - Derecha
+    valorModel,
+    valorDateAferica,
+    valorIngenier,
+    valorData,
+  ) async {
     // Construye la URL con los parámetros
-    var url = '${Env.apiEndpoint}/pdf-apk';
-    final Map<String, String> headers = {
-      'Content-Type': 'application/pdf', // ajusta según tu autenticación
+    var fileUrl = '${Env.apiEndpoint}/pdf';
+    // final Map<String, String> headers = {
+    //   'Content-Type': 'application/pdf', // ajusta según tu autenticación
+    // };
+    Map<String, dynamic> queryParameters = {
+      "branchName": valorBranchName,
+      "cityState": valorCityState,
+      "numberRelatorie": valorNumberRelatorie,
+      "contact": valorContact,
+      "tag": valorTag,
+      "fabricante": valorFabricante,
+      "direction": valorDirection,
+      "functionProceso": valorFunctionProceso,
+      "faixa": valorFaixa,
+      "medida": valorMedida,
+      "fre": valorFre,
+      "dataCalibration": valorDataCalibration,
+      "dataNextCalibration": valorDataNextCalibration,
+      "aplicada25": valorAplicada25,
+      "aplicada50": valorAplicada50,
+      "aplicada75": valorAplicada75,
+      "aplicada100": valorAplicada100,
+      "instrumentPadrao": valorInstrumentPadrao,
+      "certificado": valorCertificado,
+      "dateAferica": valorDateAferica,
+      "model": valorModel,
+      "serviceExecute": valorServiceExecute,
+      "art": valorArt,
+      "ingenier": valorIngenier,
+      "tecnico": valorTecnico,
+      "data": valorData,
+      "user_id": 1,
+      "id": 1,
+      "start_date": '',
+      "end_date": ''
     };
-    print(url);
+
+    print(fileUrl);
+    print(savePath);
     try {
-      final response = await get(url, headers: headers);
+      var response = await Dio().download(
+        fileUrl,
+        savePath,
+        queryParameters: queryParameters,
+        onReceiveProgress: (received, total) {
+          // Aquí puedes manejar el progreso de la descarga
+          print('total:$total');
+          print('received:$received');
+        },
+      );
 
       print('****************************');
-      print(response);
+      //  print(response);
       print(response.headers);
-      print(response.body);
-      print(response.statusCode);
+      // print(response.data);
+      // print(response.statusCode);
 
       if (response.statusCode == 200) {
-        final response1 = response.bodyBytes;
-        print('Ver cómo dar la opción de descargar el pdf');
-        print(response1);
-        return true;
+        //final response1 = response.bodyBytes;
+        print(
+            'response.statusCode == 200 Ver cómo dar la opción de descargar el pdf');
+        // print(response1);
+        return savePath;
       } else {
         print('Fallo y dio código: ${response.statusCode}');
-        return false;
+        return response;
       }
     } catch (e) {
       print('Error en la solicitud PDF: $e');

@@ -2,8 +2,12 @@
 
 import 'package:apk_service_check/get_connect/repository/user.repository.dart';
 import 'package:apk_service_check/views/env.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LoginController extends GetxController {
   @override
@@ -18,6 +22,18 @@ class LoginController extends GetxController {
   UserRepository usuarioLg = UserRepository();
   bool isLoading = true;
   String greeting = 'Buenos días ';
+  bool obscureText = true;
+  String pathPdf = '';
+
+  void togglePasswordVisibility() {
+    obscureText = !obscureText;
+    update();
+  }
+
+  Future<void> getIsLoading(bool value) async {
+    isLoading = value;
+    update();
+  }
 
   void getGreeting() {
     // Obtener la hora actual
@@ -77,8 +93,34 @@ class LoginController extends GetxController {
     valorData,
   ) async {
     //llamar al repositorio
-    var result = await usuarioLg.getPdf();
-    /*var result = await usuarioLg.getPdf(
+    //var result = await usuarioLg.getPdf();
+    PermissionStatus status;
+    String savePath2 = '';
+
+    // Obtener información sobre el dispositivo
+    AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+    print("Android SDK Version222: ${androidInfo.version.release}");
+
+    // Verificar la versión de Android
+    if (int.tryParse(androidInfo.version.release)! < 12) {
+      // Android SDK < 23 (antes de Android 6.0), usa Permission.storage
+      status = await Permission.storage.request();
+    } else {
+      // Android SDK >= 23 (Android 6.0 o superior), usa Permission.manageExternalStorage
+      status = await Permission.manageExternalStorage.request();
+    }
+    if (status.isDenied || status.isPermanentlyDenied || status.isRestricted) {
+      print("Please allow storage permission to download files");
+    } else if (status.isGranted) {
+      var dir = await getDownloadsDirectory();
+      String savename = "file.pdf";
+      savePath2 = "${dir!.path}/$savename";
+      print('savePath2***************************************');
+      print(savePath2);
+    }
+
+    var result = await usuarioLg.getPdf(
+      savePath2,
       // Formulario 1
       valorBranchName,
       valorCityState,
@@ -115,14 +157,28 @@ class LoginController extends GetxController {
       valorDate_aferica,
       valorIngenier,
       valorData,
-    );*/
+    );
 
-    if (result == true) {
-      print('LA API ESTA DEVOLVIENDO TODO BIEN ESTOY YA EN EL CONTROLADOR');
-    } else {
+    if (result == false) {
       print('DEVOLVIENDO FALSE EN EL CONTROLADOR');
+    } else {
+      //AQUI RECIBO AL PDF, ALOBJETO COMPLETO
+      print(
+          '------------------AQUI MOSTRANDO EL RESULTADO-----------------------');
+      print(result);
+      print('------------------FIN-----------------------');
+      pathPdf = result;
+      print('pathPdf = result;');
+      update();
     }
   }
+
+//
+//
+  openFilePdf() {
+    OpenFile.open(pathPdf);
+  }
+
 //
 //
 

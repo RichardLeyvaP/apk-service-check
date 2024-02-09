@@ -4,6 +4,7 @@ import 'package:apk_service_check/Controllers/login.controller.dart';
 import 'package:apk_service_check/home_principal.dart';
 import 'package:apk_service_check/pagePdf.dart';
 import 'package:apk_service_check/theme.dart';
+import 'package:apk_service_check/views/loginFormPage.dart';
 import 'package:apk_service_check/views/page404.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
@@ -23,7 +24,7 @@ class Myapp extends StatelessWidget {
         theme: ThemeData(colorScheme: lightColorScheme),
         darkTheme: ThemeData(colorScheme: darkColorScheme),
         themeMode: ThemeMode.light, //es tecnico
-        initialRoute: '/HomePricipal',
+        initialRoute: '/LoginFormPage',
         //initialRoute: '/SplashPage',
         unknownRoute: GetPage(
           name: '/Error', // Nombre de la ruta de error
@@ -39,6 +40,11 @@ class Myapp extends StatelessWidget {
       GetPage(
         name: '/PagePdf',
         page: () => const PagePdf(),
+        binding: BindingsBuilder.put(() => LoginController()),
+      ),
+      GetPage(
+        name: '/LoginFormPage',
+        page: () => LoginFormPage(),
         binding: BindingsBuilder.put(() => LoginController()),
       ),
       GetPage(

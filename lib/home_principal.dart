@@ -18,173 +18,193 @@ class _HomePricipalState extends State<HomePricipal> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 360,
-                  left: -70,
-                  child: Container(
-                    width: 180,
-                    height: 180,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [Colors.purple, Colors.lightBlue],
+          GetBuilder<LoginController>(builder: (controll) {
+            return Expanded(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 360,
+                    left: -70,
+                    child: Container(
+                      width: 180,
+                      height: 180,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [Colors.purple, Colors.lightBlue],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: -70,
-                            right: -75,
-                            child: Container(
-                              width: 220,
-                              height: 220,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    Color.fromARGB(255, 19, 61, 30),
-                                    Color.fromARGB(255, 138, 240, 177),
-                                  ],
+                  Column(
+                    children: [
+                      Expanded(
+                        flex: 5,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: -70,
+                              right: -75,
+                              child: Container(
+                                width: 220,
+                                height: 220,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [
+                                      Color.fromARGB(255, 19, 61, 30),
+                                      Color.fromARGB(255, 138, 240, 177),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 30,
-                            right: 15,
-                            child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    Get.changeThemeMode(Get.isDarkMode
-                                        ? ThemeMode.light
-                                        : ThemeMode.dark);
-                                  });
-                                },
-                                child: CircleAvatar(
-                                  child: Icon(
-                                    Icons.brightness_medium,
-                                    size: 30,
-                                  ),
-                                )),
-                          ),
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 100),
-                              child: Column(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 70,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(80),
-                                      child: Image.network(
-                                        'https://th.bing.com/th/id/OIP.dkGMi3fxsO7WBxzYXyFWKgAAAA?rs=1&pid=ImgDetMain',
-                                        width: 130,
-                                        height: 130,
-                                        fit: BoxFit.cover,
+                            Positioned(
+                              top: 30,
+                              right: 15,
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      Get.changeThemeMode(Get.isDarkMode
+                                          ? ThemeMode.light
+                                          : ThemeMode.dark);
+                                    });
+                                  },
+                                  child: const CircleAvatar(
+                                    child: Icon(
+                                      Icons.brightness_medium,
+                                      size: 30,
+                                    ),
+                                  )),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 100),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 70,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(80),
+                                          child: Image.network(
+                                            'https://th.bing.com/th/id/OIP.dkGMi3fxsO7WBxzYXyFWKgAAAA?rs=1&pid=ImgDetMain',
+                                            width: 130,
+                                            height: 130,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      const Text(
+                                        'Mariela Laos Zamora',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      const Text(
+                                        'Ing. Informática',
+                                        style: TextStyle(
+                                          color: Color.fromARGB(
+                                              164, 255, 255, 255),
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          controllerLogin.alertDialog(
+                                              '¿Quieres salir de la aplicación?',
+                                              'Cancelar',
+                                              '',
+                                              'Salir',
+                                              '/LoginFormPage');
+                                          // Acción para cerrar la cuenta
+                                        },
+                                        child: const Text('Cerrar mi cuenta'),
+                                      ),
+                                    ],
                                   ),
-                                  const Text(
-                                    'Mariela Laos Zamora',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  const Text(
-                                    'Ing. Informática',
-                                    style: TextStyle(
-                                      color: Color.fromARGB(164, 255, 255, 255),
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      controllerLogin.alertDialog(
-                                          '¿Quieres salir de la aplicación?',
-                                          'Cancelar',
-                                          '',
-                                          'Salir',
-                                          '');
-                                      // Acción para cerrar la cuenta
-                                    },
-                                    child: const Text('Cerrar mi cuenta'),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      Stack(
+                        children: [
+                          Container(
+                            height: 50, // Altura del Stack
                           ),
                         ],
                       ),
-                    ),
-                    Stack(
+                      Expanded(
+                          flex: 4,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30)),
+                                color: Get.isDarkMode
+                                    ? const Color.fromARGB(255, 81, 89, 202)
+                                    : const Color.fromARGB(255, 87, 86,
+                                        86) // Ajusta el valor de opacidad según tus necesidades
+                                ),
+                          )),
+                    ],
+                  ),
+                  Positioned(
+                    top: 420,
+                    left: 0,
+                    right: 0,
+                    child: Column(
                       children: [
-                        Container(
-                          height: 50, // Altura del Stack
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            buildCard(Icons.home, 'Home'),
+                            buildCard(Icons.search, 'Buscar'),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                                onTap: () async {
+                                  // controll.getIsLoading(true);
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                  );
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () async {
+                                    // Espera a que la navegación a la nueva página se complete
+                                    await Get.toNamed('/PagePdf');
+                                    // Una vez que la navegación está completa, cierra el diálogo de carga
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                child: buildCard(
+                                    Icons.picture_as_pdf, '(Generar PDF)')),
+                            buildCard(Icons.settings, 'Opciones'),
+                          ],
                         ),
                       ],
                     ),
-                    Expanded(
-                        flex: 4,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30)),
-                              color: Get.isDarkMode
-                                  ? const Color.fromARGB(255, 81, 89, 202)
-                                  : const Color.fromARGB(255, 87, 86,
-                                      86) // Ajusta el valor de opacidad según tus necesidades
-                              ),
-                        )),
-                  ],
-                ),
-                Positioned(
-                  top: 420,
-                  left: 0,
-                  right: 0,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          buildCard(Icons.home, 'Home'),
-                          buildCard(Icons.search, 'Buscar'),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          InkWell(
-                              onTap: () {
-                                Get.toNamed(
-                                  '/PagePdf',
-                                );
-                              },
-                              child: buildCard(
-                                  Icons.favorite, '(Favoritos(PDF))')),
-                          buildCard(Icons.settings, 'Opciones'),
-                        ],
-                      ),
-                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
       // bottomNavigationBar: BottomNavigationBar(
