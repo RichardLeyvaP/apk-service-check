@@ -52,5 +52,7 @@
 		<dict>
 		    <key>NSAllowsArbitraryLoads</key>
 		    <true/>
+			<key>NSFaceIDUsageDescription</key>
+<string>Ese key de arriba es para utilizar la autenticacion y que funcione en iOs</string>
 </dict>
 </plist>

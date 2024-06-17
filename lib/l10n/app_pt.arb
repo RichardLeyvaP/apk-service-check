@@ -1,13 +1,18 @@
 {
     "@@locale": "pt",
     "helloWorld": "Olá Mundo",
-     "title": "Aplication em Portugués",
+    "title": "Aplicação em Português",
+    "cartName": "Casa",
+    "cartSearch": "Buscar",
+    "cartPdf": "(Gerar PDF)",
+    "cartOpction": "Opções",
+    "loadTitle":"Carregando dados...",
+    "closeAccount":"Fechar minha conta",
+    "authMessage":"Por favor, autentique",
     "@title": {
-        "description": "Titulo de la apk"
+      "description": "Título da aplicação"
     },
     "@helloWorld": {
-        "description": "Olá Mundo descripcion"
-
+      "description": "descrição do olá mundo"
     }
-
-}
+  }

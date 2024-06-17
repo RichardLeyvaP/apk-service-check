@@ -27,6 +27,10 @@ dependencies:
   path_provider: ^2.1.2
   table_calendar: ^3.0.9
   animate_do: ^3.0.2
+  material_design_icons_flutter: ^7.0.7296
+  qr_code_scanner: ^1.0.1
+  provider: ^6.1.2
+  local_auth: ^2.1.8
 
 
 dev_dependencies:
@@ -38,6 +42,12 @@ dev_dependencies:
 flutter: 
   uses-material-design: true
   generate: true
+  assets:  
+    # Agrega aquí otros idiomas que estés usando
+    - lib/l10n/app_en.arb
+    - lib/l10n/app_es.arb
+    - lib/l10n/app_pt.arb
+    - assets/images/fingerprint.jpg  
  
  
       

@@ -20,7 +20,7 @@ class PagePdf extends StatefulWidget {
   State<PagePdf> createState() => _PagePdfState();
 }
 
-final LoginController controllerLogin = Get.find<LoginController>();
+final LoginController cLogin = Get.find<LoginController>();
 
 //form 1
 TextEditingController tFContBranchName = TextEditingController();
@@ -62,7 +62,7 @@ class _PagePdfState extends State<PagePdf> {
   Widget build(BuildContext context) {
     // Llama a la función después de que el widget se haya construido
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controllerLogin.getIsLoading(false);
+      cLogin.getIsLoading(false);
     });
 
     return Scaffold(
@@ -88,7 +88,11 @@ class _PagePdfState extends State<PagePdf> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             // Coloca aquí el código para manejar la acción de retroceder
-            Get.back();
+            if (cLogin.getQrReader()) {
+              Get.offAllNamed('/HomePricipal');
+            } else {
+              Get.back();
+            }
           },
         ),
         title: Center(child: Text('Service Check PDF')),
@@ -560,7 +564,7 @@ class _MyHomePdfState extends State<MyHomePdf> {
     print(valorCityState);
     print(valorContact);
     print('LLAMANDO AL CONTROLADOR controllerLogin.exportPdf');
-    controllerLogin.exportPdf(
+    cLogin.exportPdf(
       // Formulario 1
       valorBranchName,
       valorCityState,

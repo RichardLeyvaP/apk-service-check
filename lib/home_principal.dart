@@ -1,5 +1,7 @@
 import 'package:apk_service_check/Controllers/login.controller.dart';
+import 'package:apk_service_check/util/util_class.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 // ignore: depend_on_referenced_packages
 import 'package:get/get.dart';
 
@@ -11,10 +13,20 @@ class HomePricipal extends StatefulWidget {
 }
 
 class _HomePricipalState extends State<HomePricipal> {
-  final LoginController controllerLogin = Get.find<LoginController>();
+  final LoginController cLogin = Get.find<LoginController>();
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      //  cLogin.toggleTheme();
+      // Aquí puedes poner la lógica que necesitas ejecutar después de que el widget haya sido renderizado
+      print("Widget renderizado completamente");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('esto devuelve Get.isDarkMode:-1  :${Get.isDarkMode}');
     return Scaffold(
       body: Column(
         children: [
@@ -68,11 +80,9 @@ class _HomePricipalState extends State<HomePricipal> {
                               right: 15,
                               child: InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      Get.changeThemeMode(Get.isDarkMode
-                                          ? ThemeMode.light
-                                          : ThemeMode.dark);
-                                    });
+                                    cLogin.toggleTheme();
+                                    print(
+                                        'esto devuelve Get.isDarkMode:2-${Get.isDarkMode}');
                                   },
                                   child: const CircleAvatar(
                                     child: Icon(
@@ -80,6 +90,28 @@ class _HomePricipalState extends State<HomePricipal> {
                                       size: 30,
                                     ),
                                   )),
+                            ),
+                            Positioned(
+                              top: 30,
+                              right: 80,
+                              child: InkWell(
+                                  onTap: () {
+                                    cLogin.setQrReader(true);
+                                    Get.toNamed(
+                                      '/QRViewExample',
+                                    );
+                                  },
+                                  child: const CircleAvatar(
+                                    child: Icon(
+                                      Icons.qr_code,
+                                      size: 30,
+                                    ),
+                                  )),
+                            ),
+                            Positioned(
+                              top: 30,
+                              right: 145,
+                              child: LanguageSelector(),
                             ),
                             Center(
                               child: Padding(
@@ -100,6 +132,13 @@ class _HomePricipalState extends State<HomePricipal> {
                                           ),
                                         ),
                                       ),
+                                      Text(
+                                        TranslationManager.translate('title'),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                       const Text(
                                         'Mariela Laos Zamora',
                                         style: TextStyle(
@@ -107,17 +146,19 @@ class _HomePricipalState extends State<HomePricipal> {
                                           fontSize: 20,
                                         ),
                                       ),
-                                      const Text(
+                                      Text(
                                         'Ing. Informática',
                                         style: TextStyle(
-                                          color: Color.fromARGB(
-                                              164, 255, 255, 255),
+                                          color: cLogin.isDarkMode.value
+                                              ? const Color.fromARGB(
+                                                  164, 255, 255, 255)
+                                              : Colors.black,
                                           fontSize: 14,
                                         ),
                                       ),
                                       ElevatedButton(
                                         onPressed: () {
-                                          controllerLogin.alertDialog(
+                                          cLogin.alertDialog(
                                               '¿Quieres salir de la aplicación?',
                                               'Cancelar',
                                               '',
@@ -125,7 +166,9 @@ class _HomePricipalState extends State<HomePricipal> {
                                               '/LoginFormPage');
                                           // Acción para cerrar la cuenta
                                         },
-                                        child: const Text('Cerrar mi cuenta'),
+                                        child: Text(
+                                            TranslationManager.translate(
+                                                'closeAccount')),
                                       ),
                                     ],
                                   ),
@@ -149,10 +192,10 @@ class _HomePricipalState extends State<HomePricipal> {
                                 borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(30),
                                     topRight: Radius.circular(30)),
-                                color: Get.isDarkMode
-                                    ? const Color.fromARGB(255, 81, 89, 202)
-                                    : const Color.fromARGB(255, 87, 86,
-                                        86) // Ajusta el valor de opacidad según tus necesidades
+                                color: cLogin.isDarkMode.value
+                                    ? const Color.fromARGB(255, 87, 86, 86)
+                                    : const Color.fromARGB(255, 81, 89,
+                                        202) // Ajusta el valor de opacidad según tus necesidades
                                 ),
                           )),
                     ],
@@ -166,8 +209,10 @@ class _HomePricipalState extends State<HomePricipal> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            buildCard(Icons.home, 'Home'),
-                            buildCard(Icons.search, 'Buscar'),
+                            buildCard(Icons.home,
+                                TranslationManager.translate('cartName')),
+                            buildCard(Icons.search,
+                                TranslationManager.translate('cartSearch')),
                           ],
                         ),
                         Row(
@@ -176,26 +221,41 @@ class _HomePricipalState extends State<HomePricipal> {
                             InkWell(
                                 onTap: () async {
                                   // controll.getIsLoading(true);
-                                  showDialog(
-                                    context: context,
+                                  Get.dialog(
+                                    Center(
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CircularProgressIndicator(
+                                                // color: Color(0xFFFDAE2A),
+                                                ),
+                                            SizedBox(height: 16),
+                                            Text(
+                                                TranslationManager.translate(
+                                                    'loadTitle'),
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    },
-                                  );
+                                  ); //Get.back();
                                   Future.delayed(const Duration(seconds: 1),
                                       () async {
                                     // Espera a que la navegación a la nueva página se complete
+                                    cLogin.setQrReader(false);
                                     await Get.toNamed('/PagePdf');
                                     // Una vez que la navegación está completa, cierra el diálogo de carga
                                     Navigator.of(context).pop();
                                   });
                                 },
-                                child: buildCard(
-                                    Icons.picture_as_pdf, '(Generar PDF)')),
-                            buildCard(Icons.settings, 'Opciones'),
+                                child: buildCard(Icons.picture_as_pdf,
+                                    TranslationManager.translate('cartPdf'))),
+                            buildCard(Icons.settings,
+                                TranslationManager.translate('cartOpction')),
                           ],
                         ),
                       ],
@@ -237,11 +297,10 @@ class _HomePricipalState extends State<HomePricipal> {
       elevation: 0,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Get.isDarkMode
-              ? Color.fromARGB(155, 172, 176, 233)
-              : Color.fromARGB(255, 35, 35, 36),
-        ),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: cLogin.isDarkMode.value
+                ? Color.fromARGB(255, 35, 35, 36)
+                : Color.fromARGB(155, 172, 176, 233)),
         width: 170,
         height: 170,
         child: Column(

@@ -136,9 +136,10 @@ class _LoginFormPageState extends State<LoginFormPage> {
                               alignment: Alignment.bottomRight,
                               child: InkWell(
                                   onTap: () {
+                                    // Get.offAllNamed('/AuthCheck');
                                     Get.snackbar(
                                       '',
-                                      'Cargar Formulario Recuperar Contraseña',
+                                      'Se está trabajndo en ese módulo',
                                       colorText: Colors.black,
                                       titleText: const Text('Mensaje'),
                                       duration: const Duration(seconds: 4),
@@ -153,7 +154,7 @@ class _LoginFormPageState extends State<LoginFormPage> {
                                       overlayBlur: 3,
                                     );
                                   },
-                                  child: const Text('Recuperar Contraseña'))),
+                                  child: const Text('Olvidé mi contraseña'))),
                           const SizedBox(
                             height: 20,
                           ),
@@ -245,48 +246,20 @@ class _LoginFormPageState extends State<LoginFormPage> {
                               ),
                             ],
                           ),
-
-                          /* ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    const Color.fromARGB(255, 248, 246, 246)),
-                                // Añadir más propiedades de estilo aquí
-                              ),
-                              onPressed: () {
-                                _.updateData(
-                                    _usserController.text, _passController.text);
-                                _.getData();
-    
-                                if (_.pagina != 'nothing') {
-                                  Navigator.pushReplacementNamed(
-                                      context, _.pagina);
-                                } else if (_.usuario.isNotEmpty ||
-                                    _.pass.isNotEmpty) {
-                                  _passController.text = '';
-                                  _usserController.text = '';
-                                  Get.snackbar(
-                                    '',
-                                    'Usuario o Contraseña incorecto,INTENTELO NUEVAMENTE.',
-                                    colorText: Colors.red,
-                                    titleText: const Text('Error'),
-                                    duration: const Duration(seconds: 4),
-                                    showProgressIndicator: true,
-                                    progressIndicatorBackgroundColor:
-                                        const Color.fromARGB(255, 81, 93, 117),
-                                    progressIndicatorValueColor:
-                                        const AlwaysStoppedAnimation(
-                                            Color.fromARGB(255, 241, 130, 84)),
-                                    overlayBlur: 3,
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                'LOG IN',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800),
-                              )),*/
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Get.offAllNamed('/AuthCheck');
+                            },
+                            child: Image(
+                              image:
+                                  AssetImage('assets/images/fingerprint.jpg'),
+                              width: 80,
+                              height: 60,
+                            ),
+                          ),
                         ],
                       );
                     }),

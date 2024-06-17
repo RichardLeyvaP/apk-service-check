@@ -1,13 +1,18 @@
 {
     "@@locale": "en",
     "helloWorld": "Hello World",
-     "title": "English App",
+    "title": "Application in English",
+    "cartName": "Home",
+    "cartSearch": "Search",
+    "cartPdf": "(Generate PDF)",
+    "cartOpction": "Options",
+    "loadTitle":"Loading data...",
+    "closeAccount":"Close my account",
+    "authMessage":"Please authenticate",
     "@title": {
-        "description": "Title the aplication"
+      "description": "Title of the application"
     },
     "@helloWorld": {
-        "description": "Hello World description"
-
+      "description": "hello world description"
     }
-
-}
+  }

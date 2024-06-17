@@ -2,6 +2,13 @@
     "@@locale": "es",
     "helloWorld": "Hola Mundo",
      "title": "Aplicación en Español",
+     "cartName":"Inicio",
+     "cartSearch":"Buscar",
+     "cartPdf":"(Generar pdf)",
+     "cartOpction":"Opciones",
+     "loadTitle":"Cargando datos...",
+     "closeAccount":"Cerrar mi cuenta",
+     "authMessage":"Por favor, autentiquese",
     "@title": {
         "description": "Título de la aplicación"
     },
